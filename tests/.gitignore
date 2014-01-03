@@ -79,6 +79,7 @@ tnsegv
 tnsigill
 tnsyslog
 tnsyslogmatch
+tntag
 tntimeout
 treader
 tstack

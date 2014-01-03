@@ -75,6 +75,7 @@ SIMPLE_TESTS= \
     tnsyslogmatch \
     tntimeout \
     tnfdleak \
+    tntag \
 
 PARALLEL_TESTS= \
     tnparallel \
@@ -106,12 +107,18 @@ COMPOUND_SUBTESTS= \
 
 COMPOUND_DATA= $(addprefix d-,$(COMPOUND_SUBTESTS))
 
+hash:=$(shell printf '\043')
+
+TAG_TESTS= \
+    $(foreach t,uno duo tre trois nope,tntag%$(hash)$t)
+
 TESTS= \
     $(SIMPLE_TESTS) \
     $(foreach t,$(PARALLEL_TESTS),$t $(foreach j,1 2 4,$t%-j$j)) \
     $(foreach t,$(BASIC_TESTS),$t $(foreach s,$(OUTPUT_FORMATS),$t%-f$s)) \
     $(MAINFUL_TESTS) \
-    $(foreach t,$(COMPOUND_TESTS),$(foreach s,$(COMPOUND_DATA),$t%$s))
+    $(foreach t,$(COMPOUND_TESTS),$(foreach s,$(COMPOUND_DATA),$t%$s)) \
+    $(TAG_TESTS)
 
 # Extract only the test executables actually mentioned in $TESTS
 # which allows us to build only those executables actually needed
